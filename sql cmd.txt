@@ -1,0 +1,93 @@
+#creating database 
+CREATE DATABASE MILK_DAIRY;
+USE MILK_DAIRY;
+
+#creating customer table
+CREATE TABLE customer (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(255),
+    customer_address VARCHAR(255),
+    customer_phone VARCHAR(20)
+);
+
+SHOW TABLES;
+
+DESCRIBE customers;
+
+#creating owner table
+CREATE TABLE owner(
+    owner_id INT AUTO_INCREMENT PRIMARY KEY,
+    owner_name VARCHAR(255) NOT NULL,
+    owner_address VARCHAR(255),
+    owner_phone VARCHAR(20)
+);
+
+SHOW TABLES;
+
+DESCRIBE owners;
+
+#creating milk details table
+CREATE TABLE MILK_DETAIL(
+    MILK_TYPE VARCHAR(100) PRIMARY KEY,  
+    PRICE_PER_UNIT DECIMAL(10,2) NOT NULL,
+    DATE_OF_MANUFACTURE DATE NOT NULL,
+    DATE_OF_EXPIRY DATE AS (DATE_ADD(DATE_OF_MANUFACTURE, INTERVAL 3 DAY)) VIRTUAL
+);
+
+SHOW TABLES;
+
+DESCRIBE MILK_DETAIL;
+
+# creating order_detail table
+CREATE TABLE order_detail (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    owner_name VARCHAR(255),
+    owner_id INT,
+    owner_address VARCHAR(255),
+    owner_phone VARCHAR(20),
+    milk_type VARCHAR(100), 
+    quantity_bought INT,
+    price_per_unit DECIMAL(10, 2),
+    total_cost DECIMAL(10, 2),
+    FOREIGN KEY (owner_id) REFERENCES owners(owner_id),
+    FOREIGN KEY (milk_type) REFERENCES milk_detail(milk_type)
+);
+
+SHOW TABLES;
+
+
+# creating generate_bill table
+CREATE TABLE generate_bill (
+    bill_id INT PRIMARY KEY AUTO_INCREMENT,
+    owner_name VARCHAR(100),
+    owner_id INT,
+    milk_type VARCHAR(50),
+    quantity_bought INT,
+    price_per_unit DECIMAL(10, 2),
+    total_cost DECIMAL(10, 2)
+);
+
+SHOW TABLES;
+
+DESCRIBE generate_bill;
+
+#creating table payment detail
+CREATE TABLE payment_details (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    bill_id INT,
+    transaction_date DATE,
+    transaction_time TIME,
+    total_cost DECIMAL(10, 2) DEFAULT 0.00,
+    total_amount_paid DECIMAL(10, 2) DEFAULT 0.00,
+    outstanding_due DECIMAL(10, 2) DEFAULT 0.00,
+    transaction_mode VARCHAR(100),
+    FOREIGN KEY (bill_id) REFERENCES generate_bill(bill_id),
+
+);
+
+select * from
+
+
+
+
+
